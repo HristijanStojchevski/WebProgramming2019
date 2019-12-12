@@ -1,25 +1,27 @@
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Pizza Order page - Pizza Size</title>
-    <style type = "text/css">
+    <title>WP lab - Delivery Info</title>
+    <style type="text/css">
         body {
             width: 800px;
             margin: auto;
         }
         table {
-            width:100%;
+            width: 100%;
         }
+
         table, td, th {
             border: 1px solid black;
-            padding:3px 2px;
+            padding: 3px 2px;
         }
+
         section {
             float: left;
             margin: 0 1.5%;
             width: 63%;
         }
+
         aside {
             float: right;
             margin: 0 1.5%;
@@ -29,18 +31,18 @@
 </head>
 <body>
 <header>
-    <h1>Pizza Order page - Select Pizza Size </h1>
+    <h1>Pizza Order page - Delivery information </h1>
 </header>
 <section>
-    <h2>Choose pizza size:</h2>
+
     <form th:action="@{/PizzaOrder.do}" method="POST">
-    <input type="radio" name="pizza_size" value="Small"> Small <br/>
-    <input type="radio" name="pizza_size" value="Medium"> Medium <br/>
-    <input type="radio" name="pizza_size" value="Big"> Big <br/>
-    <input type="radio" name="pizza_size" value="Family"> Family <br/>
-    <br/>
+        <label for="clientName">Client Name:</label><br/>
+        <input type="text" id="clientName" name="clientName"/><br/>
+        <label for="clientAddress">Delivery Address:</label><br/>
+        <textarea cols="40" rows="3" id="clientAddress" name="clientAddress"></textarea><br/>
         <input type="submit" value="Submit">
     </form>
+
 </section>
 <aside>
     <table>
@@ -49,12 +51,16 @@
                 Your Order Status
             </th>
         </tr>
+
         <tr>
             <td><b>Pizza Type </b></td>
             <td><th:block th:text="${order.pizzaType}"></th:block></td>
         </tr>
+        <tr>
+            <td><b>Pizza Size </b></td>
+            <td><th:block th:text="${order.pizzaSize}"></th:block></td>
+        </tr>
     </table>
 </aside>
-
 </body>
 </html>

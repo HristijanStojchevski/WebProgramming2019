@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>Pizza Order page - Welcome and choose pizza</title>
@@ -16,18 +15,12 @@
 </header>
 <main>
     <h2>Choose pizza:</h2>
-    <input type="radio" name="pizza" value="Margherita"> Margherita (tomato sauce, mozzarella)<br/>
-    <input type="radio" name="pizza" value="Carbonara"> Carbonara (fresh cream, mozzarella, bacon)<br/>
-    <input type="radio" name="pizza" value="Vegetariana"> Vegetariana (tomato sauce, mushrooms)<br/>
-    <input type="radio" name="pizza" value="Calzone"> Calzone (Pizza dough, ricotta, pepperoni, pizza sauce, olive oil) <br/>
-    <input type="radio" name="pizza" value="Cheddar"> Cheddar (cheddar, tomato sauce) <br/>
-    <input type="radio" name="pizza" value="Capricciosa"> Capricciosa (tomato sauce, cheese, ham) <br/>
-    <input type="radio" name="pizza" value="Burger Classic"> Burger Classic (barbecue sauce, beef, mozzarella, onions)<br/>
-    <input type="radio" name="pizza" value="Boston Barbecue"> Burger Barbecue (ham, chicken meat, onions)<br/>
-    <input type="radio" name="pizza" value="Vegie Vulcano"> Pepperoni (tomato sauce, mozzarella, sausage) <br/>
-    <input type="radio" name="pizza" value="Boston Barbecue"> Quattro Formaggi (Taleggio, Mascarpone, Gorgonzola, Parmesan) <br/>
-    <br/>
-    <a href="/selectPizzaSize.html">Submit</a>
+    <form th:action="@{/selectPizza.do}" method="POST">
+        <th:block th:each="pizza : ${pizzas}">
+            <input type="radio" name="pizza" th:value="${pizza.name}" th:text="${pizza.name}">(<span th:text="${pizza.description}"></span>)<br/>
+        </th:block>
+        <input type="submit" value="Submit"/>
+    </form>
 </main>
 </body>
 </html>
