@@ -19,38 +19,33 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name="pizza-web-Servlet",urlPatterns = "/")
+@WebServlet(name="pizza-web-Servlet",urlPatterns = "")
 public class ShowPizzaWebServlet extends HttpServlet {
-    private PizzaService pizzaService;
-    private OrderService orderService;
+    private final PizzaService pizzaService;
     private SpringTemplateEngine springTemplateEngine;
-    private WebContext webContext;
 
-    public ShowPizzaWebServlet(PizzaService pizzaService,OrderService orderService, SpringTemplateEngine springTemplateEngine) {
+    public ShowPizzaWebServlet(PizzaService pizzaService, SpringTemplateEngine springTemplateEngine) {
         this.pizzaService = pizzaService;
-        this.orderService = orderService;
         this.springTemplateEngine = springTemplateEngine;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.webContext = new WebContext(req,resp,req.getServletContext());
+        WebContext webContext = new WebContext(req,resp,req.getServletContext());
         List<Pizza> pizzas = pizzaService.listPizzas();
-        this.webContext.setVariable("pizzas",pizzas);
+        webContext.setVariable("pizzas",pizzas);
         resp.setContentType("text/html; charset=UTF-8");
-        this.springTemplateEngine.process("listPizzas.html",this.webContext,resp.getWriter());
+        this.springTemplateEngine.process("listPizzas.html",webContext,resp.getWriter());
     }
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String pizza = req.getParameter("pizza");
-        Order order = orderService.addOrder(pizza,"","","");
-        session.setAttribute("order",order);
+        String pizza = req.getParameter("pizza")!=null?req.getParameter("pizza"):""; //don't use orderService... save all attr to session
+        if(pizza.length()>1){session.setAttribute("pizzaName",pizza);}
+        else session.setAttribute("pizzaName","");
+         if(pizza.length() > 2){
         resp.sendRedirect("/selectPizza.do");
-        //orderService.placeOrder(pizzaType,"","","");
-
-        Order temp = new Order(); //Is this allowed ?
-        //temp.setPizzaType(pizzaType);
-
+        }
+         else resp.sendRedirect("/");
     }
 }

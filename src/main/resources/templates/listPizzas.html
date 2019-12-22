@@ -15,7 +15,7 @@
 </header>
 <main>
     <h2>Choose pizza:</h2>
-    <form th:action="@{/selectPizza.do}" method="POST">
+    <form method="POST">
         <th:block th:each="pizza : ${pizzas}">
             <input type="radio" name="pizza" th:value="${pizza.name}" th:text="${pizza.name}">(<span th:text="${pizza.description}"></span>)<br/>
         </th:block>

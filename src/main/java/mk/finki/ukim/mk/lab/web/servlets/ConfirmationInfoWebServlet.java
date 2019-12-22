@@ -29,10 +29,13 @@ public class ConfirmationInfoWebServlet extends HttpServlet {
         this.webContext = new WebContext(req,resp,req.getServletContext());
         HttpSession session = req.getSession();
         Order order = (Order) session.getAttribute("order");
-        this.webContext.setVariable("order",order);
-        this.webContext.setVariable("ipAdd",req.getRemoteHost());
-        this.webContext.setVariable("browserName",req.getHeader("user-agent"));
-        this.springTemplateEngine.process("deliveryInfo.html",webContext,resp.getWriter());
+        if(order.getPizzaType().length() >2 && order.getPizzaSize().length()>1 && order.getClientAddress().length()>2 && order.getClientName().length()>2) {
+            this.webContext.setVariable("order", order);
+            this.webContext.setVariable("ipAdd", req.getRemoteHost());
+            this.webContext.setVariable("browserName", req.getHeader("user-agent"));
+            this.springTemplateEngine.process("confirmationInfo.html", webContext, resp.getWriter());
+        }
+        else resp.sendRedirect("/");
     }
 
     @Override
