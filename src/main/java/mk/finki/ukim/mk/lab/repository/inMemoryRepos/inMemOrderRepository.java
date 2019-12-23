@@ -3,6 +3,7 @@ package mk.finki.ukim.mk.lab.repository.inMemoryRepos;
 import mk.finki.ukim.mk.lab.bootstrap.DataHolder;
 import mk.finki.ukim.mk.lab.model.Order;
 import mk.finki.ukim.mk.lab.repository.OrderRepository;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
