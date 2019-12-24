@@ -17,5 +17,5 @@ public interface IngredientService {
 
     Ingredient getIngredient(String name);
 
-
+    boolean existsById(String name);
 }

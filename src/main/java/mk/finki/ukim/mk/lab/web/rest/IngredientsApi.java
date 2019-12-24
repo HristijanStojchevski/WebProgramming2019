@@ -30,11 +30,12 @@ public class IngredientsApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Ingredient createIngredient(@RequestHeader("name") String name,
-                                       @RequestHeader("spicy") boolean spicy,
-                                       @RequestHeader("ammount") float ammount,
-                                       @RequestHeader("veggie") boolean veggie,
+                                       @RequestParam("spicy") boolean spicy,
+                                       @RequestParam("ammount") float ammount,
+                                       @RequestParam("veggie") boolean veggie,
                                        HttpServletResponse response,
                                        UriComponentsBuilder builder){
+        if(this.ingredientService.existsById(name)) return this.ingredientService.getIngredient(name);
         Ingredient result = this.ingredientService.createIngredient(name,spicy,ammount,veggie);
         response.setHeader("Location",builder.path("/api/ingredients/{id}").buildAndExpand(result.getName()).toUriString());
         return result;

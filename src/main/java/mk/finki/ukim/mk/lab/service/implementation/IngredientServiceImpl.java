@@ -41,4 +41,9 @@ public class IngredientServiceImpl implements IngredientService {
     public Ingredient getIngredient(String name) {
         return this.ingredientRepository.findById(name).orElseThrow(InvalidIngredientException::new);
     }
+
+    @Override
+    public boolean existsById(String name) {
+        return this.ingredientRepository.existsById(name);
+    }
 }

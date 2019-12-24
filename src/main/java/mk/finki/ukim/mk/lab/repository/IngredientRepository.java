@@ -15,4 +15,6 @@ public interface IngredientRepository {
     Optional<Ingredient> findById(String name);
 
     void delete(String name);
+
+    boolean existsById(String name);
 }

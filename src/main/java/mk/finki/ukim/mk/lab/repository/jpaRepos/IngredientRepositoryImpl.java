@@ -5,9 +5,10 @@ import mk.finki.ukim.mk.lab.repository.IngredientRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
-
+@Repository
 public class IngredientRepositoryImpl implements IngredientRepository {
 
     private final JpaIngredientRepository repository;
@@ -42,5 +43,10 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     @Override
     public void delete(String name) {
         this.repository.deleteById(name);
+    }
+
+    @Override
+    public boolean existsById(String name) {
+        return this.repository.existsById(name);
     }
 }
