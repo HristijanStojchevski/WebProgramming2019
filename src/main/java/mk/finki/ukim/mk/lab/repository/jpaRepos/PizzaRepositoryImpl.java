@@ -3,12 +3,15 @@ package mk.finki.ukim.mk.lab.repository.jpaRepos;
 import mk.finki.ukim.mk.lab.model.Ingredient;
 import mk.finki.ukim.mk.lab.model.Pizza;
 import mk.finki.ukim.mk.lab.repository.PizzaRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Primary
 public class PizzaRepositoryImpl implements PizzaRepository {
 
     private final JpaPizzaRepository repository;

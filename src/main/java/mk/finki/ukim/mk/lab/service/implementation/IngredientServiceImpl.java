@@ -2,9 +2,9 @@ package mk.finki.ukim.mk.lab.service.implementation;
 
 import mk.finki.ukim.mk.lab.model.Ingredient;
 import mk.finki.ukim.mk.lab.model.exceptions.InvalidIngredientException;
+import mk.finki.ukim.mk.lab.model.vm.Page;
 import mk.finki.ukim.mk.lab.repository.IngredientRepository;
 import mk.finki.ukim.mk.lab.service.IngredientService;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service

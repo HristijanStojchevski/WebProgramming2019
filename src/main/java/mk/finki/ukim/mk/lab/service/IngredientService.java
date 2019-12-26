@@ -1,7 +1,7 @@
 package mk.finki.ukim.mk.lab.service;
 
 import mk.finki.ukim.mk.lab.model.Ingredient;
-import org.springframework.data.domain.Page;
+import mk.finki.ukim.mk.lab.model.vm.Page;
 
 import java.util.List;
 import java.util.Optional;

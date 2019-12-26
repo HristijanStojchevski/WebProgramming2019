@@ -21,6 +21,8 @@ import java.util.List;
 @Data
 //@Table(name = "PIZZAS")
 public class Pizza {
+    /*@Id
+    private float id;*/
     @Id
     private String name;
 

@@ -1,8 +1,8 @@
 package mk.finki.ukim.mk.lab.repository.jpaRepos;
 
 import mk.finki.ukim.mk.lab.model.Ingredient;
+import mk.finki.ukim.mk.lab.model.vm.Page;
 import mk.finki.ukim.mk.lab.repository.IngredientRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
@@ -32,7 +32,8 @@ public class IngredientRepositoryImpl implements IngredientRepository {
     @Override
     public Page<Ingredient> getAllIngredients(int page, int size) {
         if(size>10)size=10;
-        return this.repository.findAll(PageRequest.of(page,size,Sort.by("name"))); //default Direction.ASC
+        org.springframework.data.domain.Page<Ingredient> result = this.repository.findAll(PageRequest.of(page, size,Sort.by("name")));
+        return new Page<>(page,result.getTotalPages(),size,result.getContent()); //default Direction.ASC
     }
 
     @Override

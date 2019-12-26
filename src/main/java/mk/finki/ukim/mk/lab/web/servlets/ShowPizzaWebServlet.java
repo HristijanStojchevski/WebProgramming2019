@@ -32,7 +32,7 @@ public class ShowPizzaWebServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         WebContext webContext = new WebContext(req,resp,req.getServletContext());
-        List<Pizza> pizzas = pizzaService.listPizzas();
+        List<Pizza> pizzas = pizzaService.listPizzas(100);
         webContext.setVariable("pizzas",pizzas);
         resp.setContentType("text/html; charset=UTF-8");
         this.springTemplateEngine.process("listPizzas.html",webContext,resp.getWriter());

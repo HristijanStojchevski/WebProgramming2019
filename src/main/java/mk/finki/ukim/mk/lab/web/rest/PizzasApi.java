@@ -6,6 +6,7 @@ import mk.finki.ukim.mk.lab.model.exceptions.InvalidPizzaException;
 import mk.finki.ukim.mk.lab.model.exceptions.NotVeggieIngredientFoundException;
 import mk.finki.ukim.mk.lab.service.IngredientService;
 import mk.finki.ukim.mk.lab.service.PizzaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,7 +37,8 @@ public class PizzasApi {
     public Pizza getById(@PathVariable String id){ return this.pizzaService.getPizza(id);  }
 
     @PostMapping
-    public Pizza create(@RequestHeader("name") String name,
+    @ResponseStatus(HttpStatus.CREATED)
+    public Pizza create(@RequestParam("name") String name,
                         @RequestParam("description") String desc,
                         @RequestParam("ingredients") String ingredients,
                         @RequestParam(name ="veggie",defaultValue = "false",required = false) boolean veggie,
@@ -52,17 +54,25 @@ public class PizzasApi {
                 ingredientList.add(moment);
             }
         });
-        if(isVeggie){
-            for(int i=0;i<ingredientList.size();i++){
-                if(!ingredientList.get(i).isVeggie()){
-                    isVeggie = false;
-                    //throw new NotVeggieIngredientFoundException(); posledni dve baranja se ne razbirlivi
+        try {
+            if (isVeggie) {
+                for (int i = 0; i < ingredientList.size(); i++) {
+                    if (!ingredientList.get(i).isVeggie()) {
+                        isVeggie = false;
+                        throw new NotVeggieIngredientFoundException(); //posledni dve baranja se ne razbirlivi
+                    }
                 }
             }
         }
-        Pizza result = this.pizzaService.createPizza(name,desc,ingredientList,isVeggie);
-        response.setHeader("Location",builder.path("/api/pizzas/{id}").buildAndExpand(result.getName()).toUriString());
-        return result;
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            Pizza result = this.pizzaService.createPizza(name,desc,ingredientList,isVeggie);
+            response.setHeader("Location",builder.path("/api/pizzas/{id}").buildAndExpand(result.getName()).toUriString());
+            return result;
+        }
+
     }
 
     @PutMapping("/{id}")
@@ -71,7 +81,7 @@ public class PizzasApi {
                       @RequestParam("ingredients") String ingredients,
                       @RequestParam("veggie") boolean veggie) {
         if (!this.pizzaService.existsById(id)) {
-            throw new InvalidPizzaException();
+            throw new InvalidPizzaException("A pizza with this name doesn't exist !");
         }
         boolean isVeggie = veggie;
         String[] splitIngredients = ingredients.split(",");
@@ -94,5 +104,17 @@ public class PizzasApi {
     }
     @DeleteMapping("/{id}")
     public void deletePizza(@RequestHeader String id){ this.pizzaService.deletePizza(id);   }
+
+    @GetMapping("/compare")
+    public List<Ingredient> getCommonIngredients(@RequestParam("pizza1") String pizza1,
+                                                 @RequestParam("pizza2") String pizza2){
+        Pizza pizzaOne = this.pizzaService.getPizza(pizza1);
+        Pizza pizzaTwo = this.pizzaService.getPizza(pizza2);
+        // Bi trebalo da raboti i prviot nachin... po clean e
+        //return pizzaOne.getIngredients().stream().filter(pizzaTwo.getIngredients()::contains).collect(Collectors.toList());
+        return pizzaOne.getIngredients().stream().filter(ingredient ->pizzaTwo
+                .getIngredients().stream().anyMatch(ingredient2 ->ingredient.getName()
+                        .equals(ingredient2.getName()))).collect(Collectors.toList());
+    }
 
 }
