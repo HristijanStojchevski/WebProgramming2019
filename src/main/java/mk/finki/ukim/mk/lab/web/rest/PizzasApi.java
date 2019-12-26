@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:3000") here is React
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(path = "/api/pizzas",produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class PizzasApi {
     private final PizzaService pizzaService;

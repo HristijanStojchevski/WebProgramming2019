@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:3000") here is React
+@CrossOrigin(origins = "http://localhost:3000") //for React locally
 @RequestMapping(path = "/api/ingredients",produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class IngredientsApi {
     private final IngredientService ingredientService;
